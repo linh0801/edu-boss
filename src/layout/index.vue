@@ -33,6 +33,7 @@ export default class LayoutIndex extends Vue {
 
 <style lang="scss" scoped>
 .wrapper {
+  min-width: 900px;
   min-height: 100vh;
 }
 </style>

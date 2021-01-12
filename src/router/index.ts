@@ -1,13 +1,19 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import LayoutIndex from '../layout/index.vue'
+import store from '@/store'
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
   {
+    path: '/login',
+    name: 'login',
+    component: () => import(/* webpackChunkName: 'login' */ '@/views/login/index.vue')
+  },
+  {
     path: '/',
-    name: 'LayoutIndex',
     component: LayoutIndex,
+    meta: { requiresAuth: true },
     children: [
       {
         path: '', // 默认子路由
@@ -17,12 +23,23 @@ const routes: Array<RouteConfig> = [
       {
         path: '/role',
         name: 'role',
-        component: () => import(/* webpackChunkName: 'role' */ '@/views/role/index.vue')
+        component: () => import(/* webpackChunkName: 'role' */ '@/views/role/index.vue'),
+        meta: { requiresAuth: false }
       },
       {
         path: '/menu',
         name: 'menu',
         component: () => import(/* webpackChunkName: 'menu' */ '@/views/menu/index.vue')
+      },
+      {
+        path: '/menu/create',
+        name: 'menuCreate',
+        component: () => import(/* webpackChunkName: 'menuCreate' */ '@/views/menu/create.vue')
+      },
+      {
+        path: '/menu/update',
+        name: 'menuUpdate',
+        component: () => import(/* webpackChunkName: 'menuCreate' */ '@/views/menu/update.vue')
       },
       {
         path: '/resource',
@@ -61,5 +78,21 @@ const routes: Array<RouteConfig> = [
 const router = new VueRouter({
   routes
 })
-
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    const user = store.state.user
+    if (!user) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath } // 确保登录成功后重定向到需要跳转的页面
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // 确保一定要调用 next()
+  }
+})
 export default router

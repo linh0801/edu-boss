@@ -71,6 +71,8 @@ export default class AppAsideBar extends Vue {
 
 <style lang="scss" scoped>
 .asider {
+  position: fixed;
+  width: 200px;
   .el-menu {
     height: 100vh;
   }

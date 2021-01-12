@@ -8,15 +8,12 @@
     </el-breadcrumb>
     <el-dropdown>
       <span class="el-dropdown-link">
-        <el-avatar size="medium" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+        <el-avatar size="medium" :src="userInfo.portrait || require('@/assets/default-avatar.png')"></el-avatar>
         <i class="el-icon-arrow-down el-icon--right"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>黄金糕</el-dropdown-item>
-        <el-dropdown-item>狮子头</el-dropdown-item>
-        <el-dropdown-item>螺蛳粉</el-dropdown-item>
-        <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-        <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+        <el-dropdown-item>{{userInfo.userName}}</el-dropdown-item>
+        <el-dropdown-item @click.native="logout"> 退出</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
@@ -25,8 +22,44 @@
 <script>
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import { getUserInfo } from '@/service/user'
 @Component
-export default class AppHeader extends Vue {}
+export default class AppHeader extends Vue {
+  userInfo = {}
+  created () {
+    this.loadUserInfo()
+    this.loadUserInfo()
+  }
+
+  async loadUserInfo () {
+    const { data } = await getUserInfo()
+    this.userInfo = data.content
+  }
+
+  logout () {
+    this.$confirm('即将退出系统, 是否继续?', '退出示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(() => {
+      // 清除store 容器中的user
+      this.$store.commit('setUser', null)
+      // 返回登录页面
+      this.$router.push({
+        name: 'login'
+      })
+      this.$message({
+        type: 'success',
+        message: '退出成功!'
+      })
+    }).catch(() => {
+      this.$message({
+        type: 'info',
+        message: '已取消退出'
+      })
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>
