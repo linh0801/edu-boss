@@ -102,8 +102,6 @@ request.interceptors.response.use(function (response) {
             resolve(request(error.config))
           })
         })
-        // 若没有refresh_token， 则直接跳转到登录页
-        break
       case 403:
         Message.error('没有权限，请联系管理员')
         break

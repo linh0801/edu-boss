@@ -25,3 +25,37 @@ export const getUserInfo = () => {
     // }
   })
 }
+
+export const getUserPages = (data: any) => {
+  return request({
+    method: 'POST',
+    data,
+    url: ApiInterface.GET_USER_PAGES
+  })
+}
+
+export const getRoleUser = (id: string | number) => {
+  return request({
+    method: 'GET',
+    url: `${ApiInterface.GET_ROLE_USER}${id}`
+  })
+}
+
+export const forbidUser = (userId: string | number) => {
+  return request({
+    method: 'POST',
+    url: ApiInterface.FORBIT_USER,
+    data: {
+      userId
+    }
+  })
+}
+export const enableUser = (userId: string | number) => {
+  return request({
+    method: 'GET',
+    url: ApiInterface.ENABLE_USER,
+    params: {
+      userId
+    }
+  })
+}

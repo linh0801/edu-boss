@@ -21,14 +21,20 @@
             <el-button size="mini"
              type="text"
             @click="handleEdit(scope.row)"
-              >编辑</el-button
-            >
+              >编辑</el-button>
             <el-button
               size="mini"
               type="text"
               @click="handleDelete(scope.row)"
-              >删除</el-button
-            >
+              >删除</el-button>
+              <el-button size="mini"
+                type="text"
+                @click="allocMenu(scope.row)"
+              >分配菜单</el-button>
+              <el-button size="mini"
+                type="text"
+                @click="allocResource(scope.row)"
+              >分配资源</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -141,6 +147,22 @@ export default Vue.extend({
             message: '已取消删除'
           })
         })
+    },
+    allocMenu (row: any) {
+      this.$router.push({
+        name: 'allocMenu',
+        params: {
+          roleId: row.id
+        }
+      })
+    },
+    allocResource (row: any) {
+      this.$router.push({
+        name: 'allocResource',
+        params: {
+          roleId: row.id
+        }
+      })
     }
   }
 })

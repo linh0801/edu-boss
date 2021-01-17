@@ -46,3 +46,20 @@ export const getResource = (id: string | number) => {
     url: `${ApiInterface.GET_RESOURCE}/${id}`
   })
 }
+
+export const getRoleResource = (id: string | number) => {
+  return request({
+    method: 'GET',
+    url: ApiInterface.GET_ROLE_RESOURCE,
+    params: {
+      roleId: id
+    }
+  })
+}
+export const allocateRoleResources = (data: any) => {
+  return request({
+    method: 'POST',
+    url: ApiInterface.ALLOCATE_ROLE_RESOURCES,
+    data
+  })
+}

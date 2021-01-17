@@ -38,3 +38,26 @@ export const deleteMenu = (id: number) => {
     url: ApiInterface.DELET_MENU + id
   })
 }
+export const getMenuNodeList = () => {
+  return request({
+    method: 'GET',
+    url: ApiInterface.GET_MENU_NODE_LIST
+  })
+}
+export const getRoleMenus = (roleId: string | number) => {
+  return request({
+    method: 'GET',
+    url: ApiInterface.GET_ROLE_MENUS,
+    params: { // axios 会把 params 转换为 key=value&key=value 的数据格式放到 url 后面(以?分割)
+      roleId
+    }
+  })
+}
+
+export const allocateRoleMenus = (data: any) => {
+  return request({
+    method: 'POST',
+    url: ApiInterface.ALLOCATE_ROLE_MENUS,
+    data
+  })
+}

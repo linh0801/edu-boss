@@ -34,3 +34,11 @@ export const getRole = (id: string | number) => {
     url: `${ApiInterface.GET_ROLE}${id}`
   })
 }
+
+export const allocRoleUsers = (data: any) => {
+  return request({
+    method: 'POST',
+    url: ApiInterface.ALLOCATE_ROLE_USERS,
+    data
+  })
+}
